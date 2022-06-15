@@ -1,0 +1,248 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content-section" >
+	<form method="POST" action="" enctype="multipart/form-data">
+		{{ form.hidden_tag() }}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">
+				{{ legend }}
+			</legend>
+			<div class="form-row">
+
+				<div class="form-group col-md-4">
+					{{ form.username.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.username.errors %}
+						{{ form.username(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.username.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.username(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-8">
+					{{ form.email.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.email.errors %}
+						{{ form.email(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.email.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.email(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+			</div>
+
+			<div class="form-row">
+				<div class="media col-md-4">
+					<img class="rounded-circle account-img" src="{{ image_file }}">
+				</div>
+
+				<div class="form-group col-md-8 mt-4 mb-4">
+						{{ form.picture.label() }}
+						{{ form.picture(class="form-control-file") }}
+
+						{% if form.picture.errors %}
+							{% for error in form.picture.errors %}
+								<span class="text-danger">{{ error }}</span>
+							{% endfor %}
+						{% endif %}
+				</div>
+			</div>
+
+			<div class="form-row">
+				
+				<div class="form-group col-md-6">
+					{{ form.first_name.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.first_name.errors %}
+						{{ form.first_name(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.first_name.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.first_name(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-6">
+					{{ form.last_name.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.last_name.errors %}
+						{{ form.last_name(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.last_name.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.last_name(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+			</div>
+
+			<div class="form-row">
+
+				<div class="form-group col-md-6">
+					{{ form.org_id.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.org_id.errors %}
+						{{ form.org_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.org_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.org_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-3">
+					{{ form.cohort_id.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.cohort_id.errors %}
+						{{ form.cohort_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.cohort_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.cohort_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-3">
+					{{ form.user_type_id.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.user_type_id.errors %}
+						{{ form.user_type_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.user_type_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.user_type_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					{{ form.phone.label(class="form-control-label") }}
+
+					{% if form.phone.errors %}
+						{{ form.phone(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.phone.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.phone(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-6">
+					{{ form.bank_account.label(class="form-control-label") }}
+
+					{% if form.bank_account.errors %}
+						{{ form.bank_account(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.bank_account.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.bank_account(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="form-row">
+			<div class="form-group col-md-4">
+				{{ form.virtual_account_number_0.label(class="form-control-label") }}
+
+				{% if form.virtual_account_number_0.errors %}
+					{{ form.virtual_account_number_0(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.virtual_account_number_0.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.virtual_account_number_0(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+			<div class="form-group col-md-4">
+				{{ form.virtual_account_number_1.label(class="form-control-label") }}
+
+				{% if form.virtual_account_number_1.errors %}
+					{{ form.virtual_account_number_1(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.virtual_account_number_1.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.virtual_account_number_1(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+
+			<div class="form-group col-md-4">
+				{{ form.virtual_account_number_2.label(class="form-control-label") }}
+
+				{% if form.virtual_account_number_2.errors %}
+					{{ form.virtual_account_number_2(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.virtual_account_number_2.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.virtual_account_number_2(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+			</div>
+
+			<div class="form-group">
+				{{ form.account_note.label(class="form-control-label") }}
+
+				{% if form.account_note.errors %}
+					{{ form.account_note(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.account_note.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.account_note(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+
+
+			<div class="form-check">
+				{{ form.active(class="form-check-input") }}
+				{{ form.active.label(class="form-check-label") }}
+			</div>
+		</fieldset>
+		<div class="form-group">
+			{{ form.submit(class="btn btn-outline-info") }}
+		</div>
+	</form>
+</div>
+{% endblock content %}

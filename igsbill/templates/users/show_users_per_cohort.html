@@ -1,0 +1,121 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<legend>
+				{{ title }}
+			</legend>
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.cohort.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.cohort.errors %}
+							{{ form.cohort(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.cohort.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.cohort(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+	{% if users %}
+		<div class="container">
+			<div class="row">
+				<div class="offset-md-4 col-md-4">
+					<button class="btn btn-info mb-4" id="btnExport" onclick="fnExcelReport();"> Eksport Data Ke XLSX</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="content-section">
+			<table class="table table-striped" id="thisTable">
+				<thead>
+					<tr>
+						<th scope="col">
+							ID
+						</th>
+						<th scope="col">
+							NISN
+						</th>
+						<th scope="col">
+							Nama
+						</th>
+						<th scope="col">
+							Kelas
+						</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					{% for user in users %}
+						<tr>
+							<td>
+								{{ user.User.id }}
+							</td>
+							<td>
+								<a href="{{ url_for('users.user_detail', username = user.User.username)}}">
+									{{ user.User.username }}
+								</a>
+							</td>
+							<td>
+								{{ user.User.full_name }}
+							</td>
+							<td>
+								{{ user.User_Cohort.cohort }}
+							</td>
+						</tr>
+						
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
+	<script type="text/javascript">
+		function fnExcelReport()
+		{
+		    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+		    var textRange; var j=0;
+		    tab = document.getElementById('thisTable'); // id of table
+
+		    for(j = 0 ; j < tab.rows.length ; j++) 
+		    {     
+		        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+		        //tab_text=tab_text+"</tr>";
+		    }
+
+		    tab_text=tab_text+"</table>";
+		    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+		    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+		    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+		    var ua = window.navigator.userAgent;
+		    var msie = ua.indexOf("MSIE "); 
+
+		    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+		    {
+		        txtArea1.document.open("txt/html","replace");
+		        txtArea1.document.write(tab_text);
+		        txtArea1.document.close();
+		        txtArea1.focus(); 
+		        sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+		    }  
+		    else                 //other browser not tested on IE 11
+		        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+		    return (sa);
+		}
+	</script>
+{% endblock content %}

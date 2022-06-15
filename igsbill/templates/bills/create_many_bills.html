@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content-section" >
+	<form method="POST" action="">
+		{{ form.hidden_tag() }}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">
+				{{ legend }}
+			</legend>
+			<div class="form-group">
+				{{ form.cohort_id.label(class="form-control-label") }}
+
+				{% if form.cohort_id.errors %}
+					{{ form.cohort_id(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.cohort_id.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.cohort_id(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					{{ form.bill_type_id.label(class="form-control-label") }}
+
+					{% if form.bill_type_id.errors %}
+						{{ form.bill_type_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.bill_type_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.bill_type_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				<div class="form-group col-md-6">
+					{{ form.service_id.label(class="form-control-label") }}
+
+					{% if form.service_id.errors %}
+						{{ form.service_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.service_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.service_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+			</div>
+			<div class="form-group">
+				{{ form.note.label(class="form-control-label") }}
+
+				{% if form.note.errors %}
+					{{ form.note(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.note.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.note(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+		</fieldset>
+		<div class="form-group">
+			{{ form.submit(class="btn btn-outline-info") }}
+		</div>
+	</form>
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-{{ message[1] }}">
+				{{ message[0] }}
+			</div>
+		{% endfor %}
+	{% endif %}
+</div>
+{% endblock content %}

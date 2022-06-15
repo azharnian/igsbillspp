@@ -1,0 +1,93 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<h3 class="border-bottom border-gray pb-2 mb-4">Pembayaran Sukses</h3>
+	<div class="article-metadata">
+			<a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('withdrawals.print_withdrawal', withdrawal_code=code) }}" target="_blank">
+				Cetak Bukti Bayar / Kwitansi
+			</a>
+			<a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('users.withdrawaldetail_user', username=withdrawal_data['user_username']) }}">
+				Kembali ke Detail Saldo dan Penarikan
+			</a>
+		</div>
+	<table class="table table-striped">
+		<tbody>
+			<tr>
+				<th scope="col">
+					Kode Penarikan
+				</th>
+				<td>
+					{{ code }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">
+					ID Pengajar
+				</th>
+				<td>
+					{{ withdrawal_data['user_id'] }}
+				</td>
+			</tr>	
+			<tr>
+				<th scope="row">
+					Nama
+				</th>
+				<td>
+					{{ withdrawal_data['user_full_name'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Layanan
+				</th>
+				<td>
+					{{ withdrawal_data['service'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					ID Layanan
+				</th>
+				<td>
+					{{ withdrawal_data['service_id'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Jumlah Dibayar
+				</th>
+				<td>
+					{{ withdrawal_data['amount'] | currency_format }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Metode Pembayaran
+				</th>
+				<td>
+					{{ withdrawal_data['payment_method'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Referensi
+				</th>
+				<td>
+					{{ withdrawal_data['reference'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Catatan
+				</th>
+				<td>
+					{{ withdrawal_data['note'] }}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+
+
+{% endblock content %}

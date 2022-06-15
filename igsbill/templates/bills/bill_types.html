@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('bills.add_bill_type') }}">Buat Tipe Tagihan Baru</a>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Tipe Tagihan
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						Dibuat
+					</th>
+					<th scope="col">
+						Diperbarui
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for bill_type in bill_types %}
+					<tr>
+						<th scope="col">
+							{{ bill_type.id }}
+						</th>
+						<th scope="col">
+							<a href="{{ url_for('bills.bill_type_detail', bill_type_id=bill_type.id) }}">
+								{{ bill_type.bill_type }}
+							</a>
+						</th>
+						<th scope="col">
+							{% if bill_type.active %}
+								Aktif
+							{% else %}
+								Tidak Aktif
+							{% endif %}
+						</th>
+						<th scope="col">
+							{% if bill_type.added_on %}
+								{{ bill_type.added_on.strftime('%d-%m-%Y') }}
+							{% endif %}
+						</th>
+						<th scope="col">
+							{% if bill_type.last_updated %}
+								{{ bill_type.last_updated.strftime('%d-%m-%Y') }}
+							{% endif %}
+						</th>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+		
+{% endblock content %}

@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('payments.add_payment_method') }}">Buat Metode Pembayaran Baru</a>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Metode Pembayaran
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						Ditambahkan
+					</th>
+					<th scope="col">
+						Diperbarui
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for payment_method in payment_methods %}
+					<tr>
+						<th scope="col">
+							{{ payment_method.id }}
+						</th>
+						<th scope="col">
+							<a href="{{ url_for('payments.payment_method_detail', payment_method_id = payment_method.id)}}">
+								{{ payment_method.method }}
+							</a>
+						</th>
+						<th scope="col">
+							{% if payment_method.active %}
+								Aktif
+							{% else %}
+								Tidak Aktif
+							{% endif %}
+						</th>
+						<th scope="col">
+							{{ payment_method.added_on | datetime_format  }}
+						</th>
+						<th scope="col">
+							{% if payment_method.last_updated %}
+								{{ payment_method.last_updated | datetime_format  }}
+							{% endif %}
+						</th>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+		
+{% endblock content %}

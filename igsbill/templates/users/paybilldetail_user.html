@@ -1,0 +1,243 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+	<a href="{{ url_for('users.user_detail', username=user.User.username) }}" class="btn btn-info mb-4">Lihat / Perbaruhi Detail Pengguna</a>
+	<table class="table table-striped">
+		<tbody>
+			<tr>
+				<th scope="col">
+					ID
+				</th>
+				<td>
+					{{ user.User.username }}
+				</td>
+			</tr>	
+			<tr>
+				<th scope="row">
+					Name
+				</th>
+				<td>
+					{{ user.User.full_name }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Kohort
+				</th>
+				<td>
+					{{ user.User_Cohort.cohort }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Organisasi
+				</th>
+				<td>
+					{{ user.User_Org.organization }}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 class="border-bottom border-gray pb-2 mb-4">Daftar Tagihan</h4>
+	<a href="{{ url_for('bills.add_bill', username=user.User.username) }}" class="btn btn-info mb-4">Tambah Tagihan</a>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">
+					Aktif
+				</th>
+				<th scope="col">
+					Kode Bill
+				</th>
+				<th scope="col">
+					Layanan
+				</th>
+				<th scope="col">
+					Dibayar
+				</th>
+				<th scope="col">
+					Sisa
+				</th>
+				<th scope="col">
+					Lunas
+				</th>
+				<th >
+					
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% if bills %}
+				{% for bill in bills %}
+					<tr>
+						<td>
+							{% if bill.Bill.active %}
+								<span class="material-icons" style="color: green">
+									check
+								</span>
+							{% else %}
+								<span class="material-icons" style="color: red">
+									clear
+								</span>
+							{% endif %}
+						</td>
+						<td>
+							{{ bill.Bill.code }}
+						</td>
+						<td>
+							{{ bill.Service.service }}
+						</td>
+						<td>
+							{% set paid = namespace(items=0)%}
+							{% if bill.Bill.payments %}
+								{% for payment in bill.Bill.payments %}
+									{% if payment.active %}
+										{% set paid.items = paid.items + payment.amount %}
+									{% endif %}
+								{% endfor %}
+								{{ paid.items | currency_format}}
+							{% else %}
+								{{ paid.items | currency_format }}
+							{% endif %}
+						</td>
+							
+						<td>
+							{% set left = namespace(items=0) %}
+							{% set left.items = bill.Service.total_price - paid.items %}
+							{{ left.items | currency_format }}
+						</td>
+						<td>
+							{% if left.items > 0 %}
+								BELUM
+							{% else %}
+								LUNAS
+							{% endif %}
+						</td>
+						<td >
+							 <div class="dropdown">
+							    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"><span class="material-icons">menu</span>
+							    <span class="caret"></span></button>
+							    <ul class="dropdown-menu">
+							      <li><a href="{{ url_for('payments.history_payment', bill_code=bill.Bill.code) }}" target="_blank"><span class="material-icons">history</span>Riwayat</a></li>
+							      {% if bill.Bill.active %}
+							      <li><a href="{{ url_for('payments.add_payment', bill_code=bill.Bill.code) }}"><span class="material-icons">credit_score</span>Bayar Tagihan</a></li>
+							      {% endif %}
+							      <li><a href="{{ url_for('bills.cancel_bill', bill_code = bill.Bill.code ) }}">
+							      {% if bill.Bill.active %}
+							      <span class="material-icons">credit_card_off</span>
+							      Batal Tagih
+							      {% else %}
+							      <span class="material-icons">done</span>
+							      Aktifkan
+							      {% endif %}
+							  	  </a></li>
+
+								    </ul>
+							  </div>	
+						</td>
+					</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</tbody>		
+	</table>
+
+	<h4 class="border-bottom border-gray pb-2 mb-4">Riwayat Pembayaran</h4>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">
+					Aktif
+				</th>
+				<th scope="col">
+					Kode Payment
+				</th>
+				<th scope="col">
+					Kode Bill
+				</th>
+				<th scope="col">
+					Layanan
+				</th>
+				<th scope="col">
+					Jumlah
+				</th>
+				<th scope="col">
+					Metode
+				</th>
+				<th scope="col">
+					
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if payments %}
+				{% for payment in payments %}
+				<tr>
+					<td>
+						{% if payment.Payment.active %}
+							<span class="material-icons" style="color: green">
+								check
+							</span>
+						{% else %}
+							<span class="material-icons" style="color: red">
+								clear
+							</span>
+						{% endif %}
+						
+					</td>
+					<td>
+						{{ payment.Payment.code }}<br>{{payment.Payment.added_on | datetime_format}}
+					</td>
+					<td>
+						{{ payment.Bill.code }}
+					</td>
+					<td>
+						{{ payment.Service.service }}
+					</td>
+					<td>
+						{{ payment.Payment.amount | currency_format }}
+					</td>
+					<td>
+						{{ payment.Payment_Method.method }}
+					</td>
+					<td>
+						<div class="dropdown">
+						    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"><span class="material-icons">menu</span>
+						    <span class="caret"></span></button>
+						    <ul class="dropdown-menu">
+						      <li><a href="{{ url_for('payments.cancel_payment', payment_code = payment.Payment.code ) }}">
+						      {% if payment.Payment.active %}
+						      <span class="material-icons">cancel_schedule_send</span>
+						      Refund/Batalkan
+						      {% else %}
+						      <span class="material-icons">done</span>
+						      Aktifkan
+						      {% endif %}
+						  	  </a></li>
+						      <li>
+						      	<a href="{{ url_for('payments.print_payment', payment_code = payment.Payment.code ) }}" target="_blank">
+						      	<span class="material-icons">print</span>
+						      	Cetak Kwitansi
+						      	</a>
+						      </li>
+						      {% if payment.Payment.image_file != 'payments/default.jpg' %}
+						      <li>
+						      	<a href="{{ url_for('payments.view_payment', payment_code = payment.Payment.code ) }}" target="_blank">
+						      	<span class="material-icons">perm_media</span>
+						      	Bukti bayar
+						      	</a>
+						      </li>
+						      {% endif %}
+						    </ul>
+						</div>
+					</td>
+				</tr>
+				{% endfor %}
+			{% endif %}
+			
+		</tbody>
+	</table>
+{% endblock content %}

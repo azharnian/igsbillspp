@@ -1,0 +1,60 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<form method="POST", action="">
+		{{ form.hidden_tag() }}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">
+				Pencarian Cepat Student ID
+			</legend>
+			<div class="form-row">
+				<div class="form-group col-md-10">
+					{{ form.full_name(class="form-control", placeholder="Ketik NISN, Nama Depan atau Belakang") }}
+				</div>
+				<div class="form-group col-md-2">
+					{{ form.submit(class="btn btn-outline-info") }}
+				</div>
+			</div>
+			
+		</fieldset>
+	</form>
+
+	{% if users %}
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">
+					ID
+				</th>
+				<th scope="col">
+					Nama Lengkap
+				</th>
+				<th scope="col">
+					Org
+				</th>
+				<th scope="col">
+					Cohort
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in users %}
+			<tr>
+				<th scope="col">
+					<a href="{{url_for('users.paybilldetail_user', username=user.User.username)}}">{{ user.User.username }}</a>
+				</th>
+				<th scope="col">
+					{{ user.User.full_name }}
+				</th>
+				<th scope="col">
+					{{ user.User_Org.organization }}
+				</th>
+				<th scope="col">
+					{{ user.User_Cohort.cohort }}
+				</th>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+	{% endif %}
+{% endblock content %}

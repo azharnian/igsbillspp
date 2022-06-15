@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('withdrawals.add_withdrawal_method') }}">Buat Metode Tarik Tunai Baru</a>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Metode Tarik Tunai
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						Ditambahkan
+					</th>
+					<th scope="col">
+						Diperbarui
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for withdrawal_method in withdrawal_methods %}
+					<tr>
+						<th scope="col">
+							{{ withdrawal_method.id }}
+						</th>
+						<th scope="col">
+							<a href="{{ url_for('withdrawals.withdrawal_method_detail', withdrawal_method_id=withdrawal_method.id ) }}">
+								{{ withdrawal_method.method }}
+							</a>
+						</th>
+						<th scope="col">
+							{% if withdrawal_method.active %}
+								Aktif
+							{% else %}
+								Tidak Aktif
+							{% endif %}
+						</th>
+						<th scope="col">
+							{{ withdrawal_method.added_on | datetime_format}}
+						</th>
+						<th scope="col">
+							{% if withdrawal_method.last_updated %}
+								{{ withdrawal_method.last_updated | datetime_format }}
+							{% endif %}
+						</th>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+		
+{% endblock content %}

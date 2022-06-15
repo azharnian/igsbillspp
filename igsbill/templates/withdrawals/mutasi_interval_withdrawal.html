@@ -1,0 +1,183 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<legend>
+				{{ title }}
+			</legend>
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-4">
+						{{ form.service.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service.errors %}
+							{{ form.service(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+					<div class="form-group col-md-4">
+						{{ form.from_date.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.from_date.errors %}
+							{{ form.from_date(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.from_date.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.from_date(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+					<div class="form-group col-md-4">
+						{{ form.to_date.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.to_date.errors %}
+							{{ form.to_date(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.to_date.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.to_date(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+			</div>
+		</form>
+	</div>
+	{% if withdrawals %}
+		<div class="container">
+			<div class="row">
+				<div class="offset-md-4 col-md-4">
+					<button class="btn btn-info mb-4" id="btnExport" onclick="fnExcelReport();"> Eksport Data Ke XLSX</button>
+				</div>
+			</div>
+		</div>
+		
+		<div class="content-section">
+			<table class="table table-striped" id="thisTable">
+				<thead>
+					<tr>
+						<th scope="col">
+							Tgl/Kwitansi
+						</th>
+						<th scope="col">
+							Pengajar
+						</th>
+						<th scope="col">
+							Org/Kohort
+						</th>
+						<th scope="col">
+							Layanan
+						</th>
+						<th scope="col">
+							Metode
+						</th>
+						<th scope="col">
+							Jumlah
+						</th>
+						
+					</tr>
+				</thead>
+				<tbody>
+					{% set total_withdrawal = namespace(items=0) %}
+					{% for withdrawal in withdrawals %}
+						<tr>
+							<td>
+								{{ withdrawal.Withdrawal.added_on | datetime_format }}-{{ withdrawal.Withdrawal.kwitansi_number }}
+							</td>
+							<td>
+								{{ withdrawal.User.username }}-{{ withdrawal.User.full_name }}
+							</td>
+							<td>
+								{{ withdrawal.User_Cohort.cohort }}-{{ withdrawal.User_Org.organization }}
+							</td>
+							<td>
+								{{ withdrawal.Service.service }}
+							</td>
+							<td>
+								{{ withdrawal.Withdrawal_Method.method }}
+							</td>
+							<td>
+								{{ withdrawal.Withdrawal.amount | currency_format }}
+								{% set total_withdrawal.items = total_withdrawal.items +  withdrawal.Withdrawal.amount%}
+							</td>
+						</tr>
+					{% endfor %}
+
+						<tr>
+							<td colspan="6" style="text-align: center;">
+								<strong>Ringkasan Pembayaran</strong>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5" >
+								<strong>Total Pembayaran</strong>
+							</td>
+							<td>
+								<strong>{{ total_withdrawal.items | currency_format }}</strong>
+							</td>
+						</tr>
+						{% for withdrawal_method in withdrawal_method_summary %}
+						<tr>
+							<td colspan="5">
+								<strong>{{ withdrawal_method }}</strong>
+							</td>
+							<td>
+								<strong>{{ withdrawal_method_summary[withdrawal_method] | currency_format }}</strong>
+							</td>
+						</tr>
+						{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	{% endif %}
+	<script type="text/javascript">
+		function fnExcelReport()
+		{
+		    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+		    var textRange; var j=0;
+		    tab = document.getElementById('thisTable'); // id of table
+
+		    for(j = 0 ; j < tab.rows.length ; j++) 
+		    {     
+		        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+		        //tab_text=tab_text+"</tr>";
+		    }
+
+		    tab_text=tab_text+"</table>";
+		    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+		    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+		    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+		    var ua = window.navigator.userAgent;
+		    var msie = ua.indexOf("MSIE "); 
+
+		    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+		    {
+		        txtArea1.document.open("txt/html","replace");
+		        txtArea1.document.write(tab_text);
+		        txtArea1.document.close();
+		        txtArea1.focus(); 
+		        sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+		    }  
+		    else                 //other browser not tested on IE 11
+		        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+		    return (sa);
+		}
+	</script>
+{% endblock content %}

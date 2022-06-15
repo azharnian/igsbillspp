@@ -1,0 +1,165 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="content-section" >
+	<form method="POST" action="">
+		{{ form.hidden_tag() }}
+		<fieldset class="form-group">
+			<legend class="border-bottom mb-4">
+				{{ legend }}
+			</legend>
+			<div class="form-group">
+				{{ form.service.label(class="form-control-label") }}
+				<small style="color: red" >*</small>
+				{% if form.service.errors %}
+					{{ form.service(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.service.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.service(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+
+			<div class="form-row">
+
+				<div class="form-group col-md-4">
+					{{ form.price.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.price.errors %}
+						{{ form.price(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.price.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.price(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-4">
+					{{ form.additional.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.additional.errors %}
+						{{ form.additional(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.additional.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.additional(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-4">
+					{{ form.tax.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.tax.errors %}
+						{{ form.tax(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.tax.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.tax(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+			</div>
+
+			<div class="form-group">
+				{{ form.sharing_percentage.label(class="form-control-label") }}
+				<small style="color: red" >*</small>
+				{% if form.sharing_percentage.errors %}
+					{{ form.sharing_percentage(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.tax.errors %}
+							<span>{{ error }}</span>
+						{% endfor %}
+					</div>
+				{% else %}
+					{{ form.sharing_percentage(class="form-control form-control-lg") }}
+				{% endif %}
+			</div>
+
+			<div class="form-row">
+
+				<div class="form-group col-md-4">
+					{{ form.user_id.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.user_id.errors %}
+						{{ form.user_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.user_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.user_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-4">
+					{{ form.org_id.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.org_id.errors %}
+						{{ form.org_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.org_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.org_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-2">
+					{{ form.cohort_id.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.cohort_id.errors %}
+						{{ form.cohort_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.cohort_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.cohort_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+				<div class="form-group col-md-2">
+					{{ form.service_type_id.label(class="form-control-label") }}
+					<small style="color: red" >*</small>
+					{% if form.service_type_id.errors %}
+						{{ form.service_type_id(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.service_type_id.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.service_type_id(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+
+			</div>
+
+
+			<div class="form-check">
+				{{ form.active(class="form-check-input") }}
+				{{ form.active.label(class="form-check-label") }}
+			</div>
+		</fieldset>
+		<div class="form-group">
+			{{ form.submit(class="btn btn-outline-info") }}
+		</div>
+	</form>
+</div>
+{% endblock content %}

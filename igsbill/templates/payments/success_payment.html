@@ -1,0 +1,93 @@
+{% extends 'layout.html' %}
+{% block content %}
+	<h3 class="border-bottom border-gray pb-2 mb-4">Pembayaran Sukses</h3>
+	<div class="article-metadata">
+			<a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('payments.print_payment', payment_code=code) }}" target="_blank">
+				Cetak Bukti Bayar / Kwitansi
+			</a>
+			<a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('users.paybilldetail_user', username=payment_data['user_username']) }}">
+				Kembali ke Detail Tagihan dan Pembayaran
+			</a>
+		</div>
+	<table class="table table-striped">
+		<tbody>
+			<tr>
+				<th scope="col">
+					Kode Pembayaran
+				</th>
+				<td>
+					{{ code }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="col">
+					ID Siswa
+				</th>
+				<td>
+					{{ payment_data['user_id'] }}
+				</td>
+			</tr>	
+			<tr>
+				<th scope="row">
+					Nama
+				</th>
+				<td>
+					{{ payment_data['user_full_name'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Layanan
+				</th>
+				<td>
+					{{ payment_data['service'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Kode Tagihan
+				</th>
+				<td>
+					{{ payment_data['bill_code'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Jumlah Dibayar
+				</th>
+				<td>
+					{{ payment_data['amount'] | currency_format }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Metode Pembayaran
+				</th>
+				<td>
+					{{ payment_data['payment_method'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Referensi
+				</th>
+				<td>
+					{{ payment_data['reference'] }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Catatan
+				</th>
+				<td>
+					{{ payment_data['note'] }}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+
+
+{% endblock content %}

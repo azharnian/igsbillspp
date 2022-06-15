@@ -1,0 +1,87 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<div class="article-metadata">
+			<a class="btn btn-info btn-sm mt-1 mb-1" href="{{ url_for('services.update_service_type', service_type_id=service_type.id) }}">
+				Perbarui
+			</a>
+			<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">
+				Hapus
+			</button>
+		</div>
+		<table class="table table-striped">	
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Tipe Layanan
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						Dibuat
+					</th>
+					<th scope="col">
+						Diperbarui
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<th scope="col">
+						{{ service_type.id }}
+					</th>
+					<th scope="col">
+						<a href="{{ url_for('services.service_type') }}">
+							{{ service_type.service_type }}
+						</a>
+					</th>
+					<th scope="col">
+						{% if service_type.active %}
+							Aktif
+						{% else %}
+							Tidak Aktif
+						{% endif %}
+					</th>
+					<th scope="col">
+						{% if service_type.added_on %}
+							{{ service_type.added_on | datetime_format}}
+						{% endif %}
+					</th>
+					<th scope="col">
+						{% if service_type.last_updated %}
+							{{ service_type.last_updated | datetime_format }}
+						{% endif %}
+					</th>
+				</tr>	
+			</tbody>
+		</table>
+
+		<!-- Modal -->
+		<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="deleteModalLabel">Hapus Tipe Layanan {{service_type.service_type}}?</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		       	<p>Ini Bersifat Permanen</p>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+		        <form action="{{ url_for('services.delete_service_type', service_type_id=service_type.id) }}" method="POST">
+		        	<input class="btn btn-danger" type="submit" value="Hapus">
+		        </form>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+{% endblock content %}

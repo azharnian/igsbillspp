@@ -1,0 +1,308 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="" formtarget="_blank">
+			{{ form.hidden_tag() }}
+			<legend>
+				{{ title }}
+			</legend>
+			<fieldset class="form-group">
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.cohort.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.cohort.errors %}
+							{{ form.cohort(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.cohort.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.cohort(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service1.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service1.errors %}
+							{{ form.service1(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service1.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service1(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service2.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service2.errors %}
+							{{ form.service2(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service2.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service2(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service3.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service3.errors %}
+							{{ form.service3(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service3.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service3(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service4.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service4.errors %}
+							{{ form.service4(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service4.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service4(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service5.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service5.errors %}
+							{{ form.service5(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service5.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service5(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service6.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service6.errors %}
+							{{ form.service6(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service6.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service6(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service7.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service7.errors %}
+							{{ form.service7(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service7.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service7(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service8.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service8.errors %}
+							{{ form.service8(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service8.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service8(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service9.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service9.errors %}
+							{{ form.service9(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service9.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service9(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service10.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service10.errors %}
+							{{ form.service10(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service10.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service10(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service11.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service11.errors %}
+							{{ form.service11(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service11.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service11(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service12.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service12.errors %}
+							{{ form.service12(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service12.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service12(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service13.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service13.errors %}
+							{{ form.service13(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service13.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service13(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service14.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service14.errors %}
+							{{ form.service14(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service14.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service14(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+				<div class="form-row">
+					<div class="form-group col-md-12">
+						{{ form.service15.label(class="form-control-label") }}
+						<small style="color: red" >*</small>
+						{% if form.service15.errors %}
+							{{ form.service15(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.service15.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.service15(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+				</div>
+			</fieldset>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info", formtarget="_blank") }}
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript">
+		function fnExcelReport()
+		{
+		    var tab_text="<table border='2px'><tr bgcolor='#87AFC6'>";
+		    var textRange; var j=0;
+		    tab = document.getElementById('thisTable'); // id of table
+
+		    for(j = 0 ; j < tab.rows.length ; j++) 
+		    {     
+		        tab_text=tab_text+tab.rows[j].innerHTML+"</tr>";
+		        //tab_text=tab_text+"</tr>";
+		    }
+
+		    tab_text=tab_text+"</table>";
+		    tab_text= tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+		    tab_text= tab_text.replace(/<img[^>]*>/gi,""); // remove if u want images in your table
+		    tab_text= tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+
+		    var ua = window.navigator.userAgent;
+		    var msie = ua.indexOf("MSIE "); 
+
+		    if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
+		    {
+		        txtArea1.document.open("txt/html","replace");
+		        txtArea1.document.write(tab_text);
+		        txtArea1.document.close();
+		        txtArea1.focus(); 
+		        sa=txtArea1.document.execCommand("SaveAs",true,"Say Thanks to Sumit.xls");
+		    }  
+		    else                 //other browser not tested on IE 11
+		        sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));  
+
+		    return (sa);
+		}
+	</script>
+{% endblock content %}

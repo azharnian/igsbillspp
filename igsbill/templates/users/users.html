@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.add_user') }}">Buat {{type}} Baru</a>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Nama {{type}}
+					</th>
+					<th scope="col">
+						Nama Lengkap
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						Organisasi
+					</th>
+					<th scope="col">
+						Kohort
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for user in users.items %}
+					<tr>
+						<th scope="col">
+							{{ user.User.id }}
+						</th>
+						<th scope="col">
+							<a href="{{ url_for('users.user_detail', username = user.User.username)}}">
+								{{ user.User.username }}
+							</a>
+						</th>
+						<th scope="col">
+							{{ user.User.first_name }} {{ user.User.last_name }}
+						</th>
+						<th scope="col">
+							{% if user.User.active %}
+								Aktif
+							{% else %}
+								Tidak Aktif
+							{% endif %}
+						</th>
+						<th scope="col">
+							{{ user.User_Org.organization }}
+						</th>
+						<th scope="col">
+							{{ user.User_Cohort.cohort }}
+						</th>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+	
+		<div class="d-flex justify-content-center">
+			<div>
+				{% for page_num in users.iter_pages() %}
+					{% if page_num %}
+						{% if users.page == page_num %}
+							<a class="btn btn-info mb-4" href="{{ url_for(url , page=page_num) }}">{{ page_num }}</a>
+						{% else %}
+							<a class="btn btn-outline-info mb-4" href="{{ url_for(url, page=page_num) }}">{{ page_num }}</a>
+						{% endif %}
+					{% else %}
+						...
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+		
+		
+{% endblock content %}

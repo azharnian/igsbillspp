@@ -1,0 +1,251 @@
+{% extends "layout.html" %}
+
+{% block content %}
+	<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+	<a href="{{ url_for('users.user_detail', username=user.User.username) }}" class="btn btn-info mb-4">Lihat / Perbaruhi Detail Pengguna</a>
+	<table class="table table-striped">
+		<tbody>
+			<tr>
+				<th scope="col">
+					ID
+				</th>
+				<td>
+					{{ user.User.username }}
+				</td>
+			</tr>	
+			<tr>
+				<th scope="row">
+					Name
+				</th>
+				<td>
+					{{ user.User.full_name }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Kohort
+				</th>
+				<td>
+					{{ user.User_Cohort.cohort }}
+				</td>
+			</tr>
+			<tr>
+				<th scope="row">
+					Organisasi
+				</th>
+				<td>
+					{{ user.User_Org.organization }}
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h4 class="border-bottom border-gray pb-2 mb-4">Daftar Saldo Layanan</h4>
+	<a href="{{ url_for('services.add_service') }}" class="btn btn-info mb-4">Tambah Layanan</a>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">
+					Aktif
+				</th>
+				<th scope="col">
+					Layanan
+				</th>
+				<th scope="col">
+					Ditarik
+				</th>
+				<th scope="col">
+					Proyeksi
+				</th>
+				<th scope="col">
+					Sisa Saldo
+				</th>
+				<th >
+					
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% if services %}
+				{% for service in services %}
+					<tr>
+						<td>
+							{% if service.active %}
+								<span class="material-icons" style="color: green">
+									check
+								</span>
+							{% else %}
+								<span class="material-icons" style="color: red">
+									clear
+								</span>
+							{% endif %}
+						</td>
+						<td>
+							{{ service.service }}
+						</td>
+						<td>
+							{% set total_withdrawal_paid = namespace(items=0)%}
+							{% if service.withdrawals %}
+								{% for withdrawal in service.withdrawals %}
+									{% if withdrawal.active %}
+										{% set total_withdrawal_paid.items = total_withdrawal_paid.items + withdrawal.amount %}
+									{% endif %}
+								{% endfor %}
+								{{ total_withdrawal_paid.items | currency_format }}
+							{% else %}
+								{{ total_withdrawal_paid.items | currency_format }}
+							{% endif %}
+						</td>
+						<td>
+							{% set total_bill_paid = namespace(items=0) %}
+							{% if service.bills %}
+								{% for bill in service.bills %}
+									{% set bill_paid = namespace(items=0) %}
+									{% if bill.payments %}
+										
+										{% for payment in bill.payments %}
+
+											{% set bill_paid.items = bill_paid.items + payment.amount %}
+
+										{% endfor %}
+
+										{% set bill_paid.items = (bill_paid.items - service.tax - service.additional) * (service.sharing_percentage/100) %}
+
+									{% endif %}
+									{% set total_bill_paid.items = total_bill_paid.items + bill_paid.items %}
+								{% endfor %}
+
+								{{ total_bill_paid.items | currency_format }}
+
+							{% else %}
+
+								{{ total_bill_paid.items | currency_format }}
+
+							{% endif %}
+						</td>
+
+						<td>
+							{% set left = namespace(items=0) %}
+							{% set left.items = total_bill_paid.items - total_withdrawal_paid.items %}
+							{{ left.items | currency_format}}
+						</td>
+						<td >
+							 <div class="dropdown">
+							    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"><span class="material-icons">menu</span>
+							    <span class="caret"></span></button>
+							    <ul class="dropdown-menu">
+							      <li><a href="{{ url_for('withdrawals.history_withdrawal', service_id=service.id) }}" target="_blank"><span class="material-icons">history</span>Riwayat</a></li>
+							      {% if service.active %}
+							      <li><a href="{{ url_for('withdrawals.add_withdrawal', service_id=service.id) }}"><span class="material-icons">credit_score</span>Tarik Tunai</a></li>
+							      {% endif %}
+							      <li><a href="{{ url_for('services.cancel_service', service_id=service.id) }}">
+							      {% if service.active %}
+							      <span class="material-icons">credit_card_off</span>
+							      Batal Layanan
+							      {% else %}
+							      <span class="material-icons">done</span>
+							      Aktifkan
+							      {% endif %}
+							  	  </a></li>
+
+								    </ul>
+							  </div>	
+						</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</tbody>		
+	</table>
+
+	<h4 class="border-bottom border-gray pb-2 mb-4">Riwayat Penarikan Tunai</h4>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">
+					Aktif
+				</th>
+				<th scope="col">
+					Kode Penarikan
+				</th>
+				<th scope="col">
+					Layanan
+				</th>
+				<th scope="col">
+					Jumlah
+				</th>
+				<th scope="col">
+					Metode
+				</th>
+				<th scope="col">
+					
+				</th>
+			</tr>
+
+		</thead>
+		<tbody>
+			{% if withdrawals %}
+				{% for withdrawal in withdrawals %}
+				<tr>
+				<td>
+					{% if withdrawal.Withdrawal.active %}
+						<span class="material-icons" style="color: green">
+							check
+						</span>
+					{% else %}
+						<span class="material-icons" style="color: red">
+							clear
+						</span>
+					{% endif %}
+				</td>
+				<td>
+					{{ withdrawal.Withdrawal.code }}
+				</td>
+				<td>
+					{{ withdrawal.Service.service }}
+				</td>
+				<td>
+					{{ withdrawal.Withdrawal.amount | currency_format }}
+				</td>
+				<td>
+					{{ withdrawal.Withdrawal_Method.method }}
+				</td>
+				<td>
+					<div class="dropdown">
+						    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown"><span class="material-icons">menu</span>
+						    <span class="caret"></span></button>
+						    <ul class="dropdown-menu">
+						      <li><a href="{{ url_for('withdrawals.cancel_withdrawal', withdrawal_code = withdrawal.Withdrawal.code) }}">
+						      {% if withdrawal.Withdrawal.active %}
+						      <span class="material-icons">cancel_schedule_send</span>
+						      Refund/Batalkan
+						      {% else %}
+						      <span class="material-icons">done</span>
+						      Aktifkan
+						      {% endif %}
+						  	  </a></li>
+						      <li>
+						      	<a href="{{ url_for('withdrawals.print_withdrawal', withdrawal_code = withdrawal.Withdrawal.code ) }}" target="_blank">
+						      	<span class="material-icons">print</span>
+						      	Cetak Kwitansi
+						      	</a>
+						      </li>
+						      {% if withdrawal.Withdrawal.image_file != 'withdrawals/default.jpg' %}
+						      <li>
+						      	<a href="{{ url_for('withdrawals.view_withdrawal', withdrawal_code=withdrawal.Withdrawal.code) }}" target="_blank">
+						      	<span class="material-icons">perm_media</span>
+						      	Bukti bayar
+						      	</a>
+						      </li>
+						      {% endif %}
+						    </ul>
+						</div>
+				</td>
+					
+				</tr>
+				{% endfor %}
+			{% endif %}
+			
+		</tbody>
+	</table>
+{% endblock content %}

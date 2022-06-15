@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.add_user_cohort') }}">Buat Kohort Baru</a>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Kohort
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						Dibuat
+					</th>
+					<th scope="col">
+						Diperbarui
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for cohort in cohorts %}
+					<tr>
+						<th scope="col">
+							{{ cohort.id }}
+						</th>
+						<th scope="col">
+							<a href="{{ url_for('users.user_cohort_detail', user_cohort_id=cohort.id) }}">
+								{{ cohort.cohort }}
+							</a>
+						</th>
+						<th scope="col">
+							{% if cohort.active %}
+								Aktif
+							{% else %}
+								Tidak Aktif
+							{% endif %}
+						</th>
+						<th scope="col">
+							{% if cohort.added_on %}
+								{{ cohort.added_on | datetime_format }}
+							{% endif %}
+						</th>
+						<th scope="col">
+							{% if cohort.last_updated %}
+								{{ cohort.last_updated | datetime_format }}
+							{% endif %}
+						</th>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+		
+{% endblock content %}

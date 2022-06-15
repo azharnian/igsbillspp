@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('services.add_service') }}">Buat Layanan Baru</a>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Layanan
+					</th>
+					<th scope="col">
+						Tipe Layanan
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						PIC
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for service in services %}
+					<tr>
+						<th scope="col">
+							{{ service.Service.id }}
+						</th>
+						<th scope="col">
+							<a href="{{ url_for('services.service_detail', service_id = service.Service.id)}}">
+								{{ service.Service.service }}
+							</a>
+						</th>
+						<th scope="col">
+							{{ service.Service_Type.service_type }}
+						</th>
+						<th scope="col">
+							{% if service.Service.active %}
+								Aktif
+							{% else %}
+								Tidak Aktif
+							{% endif %}
+						</th>
+						<th scope="col">
+							{{ service.Service.pic.full_name }}
+						</th>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+		
+{% endblock content %}

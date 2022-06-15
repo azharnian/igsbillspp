@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+		<h3 class="border-bottom border-gray pb-2 mb-4">{{title}}</h3>
+		<a class="btn btn-outline-info mb-4" href="{{ url_for('users.add_user_organization') }}">Buat Organisasi Baru</a>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th scope="col">
+						ID
+					</th>
+					<th scope="col">
+						Organisasi
+					</th>
+					<th scope="col">
+						Status
+					</th>
+					<th scope="col">
+						Dibuat
+					</th>
+					<th scope="col">
+						Diperbarui
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for organization in organizations %}
+					<tr>
+						<th scope="col">
+							{{ organization.id }}
+						</th>
+						<th scope="col">
+							<a href="{{ url_for('users.user_organization_detail', user_org_id=organization.id) }}">
+								{{ organization.organization }}
+							</a>
+						</th>
+						<th scope="col">
+							{% if organization.active %}
+								Aktif
+							{% else %}
+								Tidak Aktif
+							{% endif %}
+						</th>
+						<th scope="col">
+							{% if organization.added_on %}
+								{{ organization.added_on | datetime_format }}
+							{% endif %}
+						</th>
+						<th scope="col">
+							{% if organization.last_updated %}
+								{{ organization.last_updated | datetime_format }}
+							{% endif %}
+						</th>
+					</tr>
+				{% endfor %}	
+			</tbody>
+		</table>
+		
+{% endblock content %}
