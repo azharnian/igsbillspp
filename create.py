@@ -2,8 +2,8 @@ import io
 import csv
 import os
 
-from igsbill import db, create_app, bcrypt
-
+from igsbill import db, create_app#, bcrypt
+from werkzeug.security import generate_password_hash
 from igsbill.models.users import *
 from igsbill.models.services import *
 from igsbill.models.bills import *
@@ -57,7 +57,7 @@ def main():
 		if password is None:
 			password = os.environ.get('DEFAULT_PASSWORD_USER')
 		clear_email = email.replace(" ", "").lower()
-		hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+		hashed_password = generate_password_hash(password).decode('utf-8')
 		user = User(username=strip_username, email=clear_email, password=hashed_password, first_name=first_name, last_name=last_name, phone=phone, bank_account=bank_account, virtual_account_number_0=virtual_account_number_0, virtual_account_number_1=virtual_account_number_1, virtual_account_number_2=virtual_account_number_2, account_note=account_note, org_id=org_id, cohort_id=cohort_id, user_type_id=user_type_id)
 		AddToDb(user)
 	print("users, done.")

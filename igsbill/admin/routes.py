@@ -1,7 +1,8 @@
 from flask import Blueprint, render_template, flash, abort
 from flask_login import current_user, login_required
+from werkzeug.security import generate_password_hash
 
-from igsbill import db, bcrypt
+from igsbill import db#, bcrypt
 from igsbill.models.users import User_Org, User_Cohort, User_Type, User, Service_Type, Service, Bill_Type, Payment_Type, Payment_Method, Withdrawal_Type, Withdrawal_Method
 from igsbill.admin.forms import ImportOrganizationForm, ImportCohortForm, ImportUserTypeForm, ImportUsersForm, ImportServiceTypeForm, ImportServicesForm, ImportBillTypeForm, ImportPaymentTypeForm, ImportPaymentMethodForm, ImportWithdrawalTypeForm, ImportWithdrawalMethodForm
 from igsbill.admin.utils import ImportCSV, AddToDb
@@ -87,7 +88,7 @@ def import_users():
 				clear_email = email.replace(" ", "").lower()
 				if password is None or password == "":
 					password = '12345'
-				hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+				hashed_password = generate_password_hash(password).decode('utf-8')
 				user = User(username=strip_username, email=clear_email, password=hashed_password, first_name=first_name, last_name=last_name, phone=phone, bank_account=bank_account, virtual_account_number_0=virtual_account_number_0, virtual_account_number_1=virtual_account_number_1, virtual_account_number_2=virtual_account_number_2, account_note=account_note, org_id=org_id, cohort_id=cohort_id, user_type_id=user_type_id)
 				results[user] = AddToDb(user)
 			flash(f'Impor data pengguna telah selesai!', 'info')

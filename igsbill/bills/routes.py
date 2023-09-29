@@ -2,8 +2,9 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, render_template, flash, redirect, url_for, request, abort
 from flask_login import current_user, login_required
+from werkzeug.security import check_password_hash
 
-from igsbill import db, bcrypt
+from igsbill import db#, bcrypt
 from igsbill.models.bills import Bill, Bill_Type
 from igsbill.models.services import Service
 from igsbill.models.users import User
@@ -41,7 +42,7 @@ def cancel_bill(bill_code):
 	if form.validate_on_submit():
 		admin = User.query.filter_by(username=form.username.data).first()
 		payments = Payment.query.filter_by(bill_id=bill.Bill.id, active=True).all()
-		if bcrypt.check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 3:
+		if check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 3:
 			if payments:
 				flash('Terdapat Pembayaran yang Belum Dibatalkan/Refund. Batalkan Terlebih Dahulu Pembayaran Aktif untuk Tagihan ini.', 'danger')
 			else:

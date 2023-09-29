@@ -2,8 +2,9 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.security import generate_password_hash, check_password_hash
 
-from igsbill import db, bcrypt
+from igsbill import db#, bcrypt
 
 from igsbill.models.users import User_Org, User_Cohort, User_Type, User_Cohort, User
 from igsbill.models.bills import Bill
@@ -26,7 +27,7 @@ def login():
 	form = LoginForm()
 	if form.validate_on_submit():
 		user = User.query.filter_by(username=form.username.data).first()
-		if user and bcrypt.check_password_hash(user.password, form.password.data) and user.user_type_id <= 4:
+		if user and check_password_hash(user.password, form.password.data) and user.user_type_id <= 4:
 			login_user(user, remember=form.remember.data)
 			user.last_login = datetime.utcnow()
 			user.last_ip = str(request.remote_addr)
@@ -64,7 +65,7 @@ def request_reset_token(token):
 		return redirect(url_for('users.request_reset_password'))
 	form = ResetPasswordByEmailForm()
 	if form.validate_on_submit():
-		hassed_password = bcrypt.generate_password_hash(form.new_password.data).decode('utf-8')
+		hassed_password = generate_password_hash(form.new_password.data).decode('utf-8')
 		user.password = hassed_password
 		user.last_updated = datetime.utcnow()
 		db.session.commit()

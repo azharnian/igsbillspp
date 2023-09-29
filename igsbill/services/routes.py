@@ -2,8 +2,9 @@ from datetime import datetime
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort
 from flask_login import current_user, login_required
+from werkzeug.security import check_password_hash
 
-from igsbill import db, bcrypt
+from igsbill import db#, bcrypt
 from igsbill.models.services import Service_Type, Service
 from igsbill.models.users import User, User_Org, User_Cohort
 from igsbill.models.withdrawals import Withdrawal
@@ -106,7 +107,7 @@ def cancel_service(service_id):
 	if form.validate_on_submit():
 		admin = User.query.filter_by(username=form.username.data).first()
 		withdrawals = Withdrawal.query.filter_by(service_id=service.Service.id, active=True).all()
-		if bcrypt.check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 3:
+		if check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 3:
 			if withdrawals:
 				flash('Terdapat Penarikan yang Belum Dibatalkan/Refund. Batalkan Terlebih Dahulu Penarikan Aktif untuk Layanan ini.', 'danger')
 			else:

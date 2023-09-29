@@ -2,10 +2,11 @@ from datetime import datetime, timedelta
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort, session
 from flask_login import current_user, login_required
+from werkzeug.security import check_password_hash
 
 from sqlalchemy import and_
 
-from igsbill import db, bcrypt
+from igsbill import db#, bcrypt
 from igsbill.models.withdrawals import Withdrawal, Withdrawal_Method, Withdrawal_Type
 from igsbill.models.payments import Payment_Type, Payment_Method, Payment
 from igsbill.models.bills import Bill
@@ -158,7 +159,7 @@ def confirmation_withdrawal(service_id):
 	withdrawal_data = session['withdrawal_confirmation_detail']
 	if form.validate_on_submit():
 		admin = User.query.filter_by(username=current_user.username).first()
-		if bcrypt.check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 4:
+		if check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 4:
 			code = generate_withdrawal_code()
 			withdrawal = Withdrawal(code=code, amount=withdrawal_data['amount'], note=withdrawal_data['note'], reference=withdrawal_data['reference'], confirmation=withdrawal_data['confirmation'], success=True, withdrawal_type_id=1, withdrawal_method_id=withdrawal_data['withdrawal_method_id'], service_id=withdrawal_data['service_id'], image_file=withdrawal_data['image_file'], admin_id=current_user.id)
 			db.session.add(withdrawal)
@@ -206,7 +207,7 @@ def cancel_withdrawal(withdrawal_code):
 	form = ConfirmationAdminForm()
 	if form.validate_on_submit():
 		admin = User.query.filter_by(username=form.username.data).first()
-		if bcrypt.check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 3:
+		if check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 3:
 			withdrawal.Withdrawal.active = not withdrawal.Withdrawal.active
 			withdrawal.Withdrawal.last_updated = datetime.utcnow()
 			db.session.commit()

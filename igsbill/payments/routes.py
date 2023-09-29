@@ -2,10 +2,11 @@ from datetime import datetime, timedelta
 
 from flask import Blueprint, render_template, flash, redirect, url_for, request, abort, session
 from flask_login import current_user, login_required
+from werkzeug.security import check_password_hash
 
 from sqlalchemy import and_
 
-from igsbill import db, bcrypt
+from igsbill import db#, bcrypt
 from igsbill.models.payments import Payment_Type, Payment_Method, Payment
 from igsbill.models.bills import Bill
 from igsbill.models.services import Service
@@ -142,7 +143,7 @@ def confirmation_payment(bill_code):
 	payment_data = session['payment_confirmation_detail']
 	if form.validate_on_submit():
 		admin = User.query.filter_by(username=current_user.username).first()
-		if bcrypt.check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 4:
+		if check_password_hash(admin.password, form.password.data) and admin.user_type_id <= 4:
 			code = generate_payment_code()
 			payment = Payment(code=code, amount=payment_data['amount'], note=payment_data['note'], reference=payment_data['reference'], confirmation=payment_data['confirmation'], success=True, payment_type_id=1, payment_method_id=payment_data['payment_method_id'], bill_id=payment_data['bill_id'], user_id=payment_data['user_id'], image_file=payment_data['image_file'], admin_id=current_user.id)
 			db.session.add(payment)
